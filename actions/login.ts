@@ -1,15 +1,17 @@
 "use server"
 import * as z from "zod"
+import { AuthError } from "next-auth";
+
 import { LoginSchema } from "@/lib/schemas";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
-import { AuthError } from "next-auth";
 import { generateTwoFactorToken, generateVerificationToken } from "@/lib/tokens";
 import { getUserByEmail } from "@/data/user";
 import { sendTwoFactorTokenEmail, sendVerificationEmail } from "@/lib/mail";
 import { getTwoFactorTokenByEmail } from "@/data/tow-factor-token";
 import { db } from "@/lib/db";
 import { getTwoFactorConfirmationByUserId } from "@/data/tow-factor-confirmation";
+
 
 export const login = async(values:z.infer<typeof LoginSchema>) => {
    
@@ -26,7 +28,7 @@ export const login = async(values:z.infer<typeof LoginSchema>) => {
     const existingUser = await getUserByEmail(email);
 
     if(!existingUser || !existingUser?.email || !existingUser.password){
-        return { error: "email deoas nor exisit!"}
+        return { error: "email deoas not exisit!"}
     };
 
     if(!existingUser.emailVerified){
