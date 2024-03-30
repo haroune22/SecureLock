@@ -6,7 +6,7 @@ import { db } from "./lib/db"
 import { getUserById } from "./data/user"
 import { UserRole } from "@prisma/client"
 import { getTwoFactorConfirmationByUserId } from "./data/tow-factor-confirmation"
-import { getAccountByUserId } from "./data/account"
+import { getAccountByUserId } from "@/data/account"
 
 
 
@@ -90,11 +90,11 @@ export const {
         token.email = existingUser.email
         token.role = existingUser.role
         token.isTwoFactorEnabled = existingUser.isTwoFactorEnabled
-
+        // console.log(token)
         return token
       }
     },
-    adapter: PrismaAdapter(db),
-    session: { strategy: "jwt"},
+  adapter: PrismaAdapter(db),
+  session: { strategy: "jwt"},
   ...authConfig,
 })

@@ -21,7 +21,6 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-// import { settings } from "@/actions/settings";
 import {
   Form,
   FormField,
@@ -38,7 +37,9 @@ import { FormSuccess } from "@/components/form-success";
 import { UserRole } from "@prisma/client";
 import { settings } from "@/actions/settings";
 
+
 const SettingsPage = () => {
+
   const user = useCurrentUser();
 
   const [error, setError] = useState<string | undefined>();
@@ -59,21 +60,21 @@ const SettingsPage = () => {
   });
 
   const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
-    // startTransition(() => {
-    //   settings(values)
-    //     .then((data) => {
-    //       if (data.error) {
-    //         setError(data.error);
-    //       }
-
-    //       if (data.success) {
-    //         update();
-    //         setSuccess(data.success);
-    //       }
-    //     })
-    //     .catch(() => setError("Something went wrong!"));
-    // });
+    startTransition(() => {
+      settings(values)
+        .then((data) => {
+          if (data.error) {
+            setError(data.error);
+          }
+          if (data.success) {
+            update();
+            setSuccess(data.success);
+          }
+        })
+        .catch(() => setError("Something went wrong!"));
+    });
   }
+  
 
   return ( 
     <Card className="w-[600px]">
